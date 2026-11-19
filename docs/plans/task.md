@@ -13,3 +13,6 @@
 | Task 6: App Entry, Window Manager e Barra Menu | Completato | AppDelegate, NSStatusItem e controllo livello `.floating` implementati |
 | Task 7: Build bundle `.app` standalone | Completato | Script `build_app.sh`, generazione `AIMeter.app` con icona e plist verificata |
 | Task 8: Git Repo, Push e Release GitHub | Completato | Repository creato `https://github.com/muccio/ai-meter`, push `main`, tag `v1.0.0` e release asset `AIMeter-macOS-v1.0.0.zip` pubblicati |
+| Fix Crash Chiusura/Riapertura Finestra | Completato | Risolto: `isReleasedWhenClosed = false` e `windowShouldClose` impediscono la deallocazione, riapertura testata con successo |
+| Integrazione Limiti 5h e Settimanali Insieme | Completato | Integrato endpoint `RetrieveUserQuotaSummary` con schede gruppi per limiti 5h e settimanali insieme |
+| Build v1.1.0, Test, Push e Nuova Release | In corso | Creazione commit, push su `main`, tag `v1.1.0` e pubblicazione release |

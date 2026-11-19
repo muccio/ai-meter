@@ -43,7 +43,7 @@ codesign --force --deep --sign - "$APP_BUNDLE"
 
 echo "==> Packaging zip archive for distribution..."
 cd "$BUILD_DIR"
-ZIP_NAME="$APP_NAME-macOS-v1.0.0.zip"
+ZIP_NAME="$APP_NAME-macOS-v1.1.0.zip"
 rm -f "$ZIP_NAME"
 zip -qry "$ZIP_NAME" "$APP_NAME.app"
 

@@ -4,7 +4,7 @@ import Combine
 import AIMeterCore
 
 @MainActor
-public final class AppDelegate: NSObject, NSApplicationDelegate {
+public final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var window: NSWindow?
     private var statusItem: NSStatusItem?
     public let viewModel = QuotaViewModel()
@@ -27,7 +27,7 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         let hostingController = NSHostingController(rootView: contentView)
 
         let window = NSWindow(
-            contentRect: NSRect(x: 100, y: 100, width: 350, height: 520),
+            contentRect: NSRect(x: 100, y: 100, width: 380, height: 560),
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered,
             defer: false
@@ -39,7 +39,11 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         window.titlebarAppearsTransparent = true
         window.titleVisibility = .hidden
         window.isMovableByWindowBackground = true
-        window.minSize = NSSize(width: 320, height: 380)
+        window.minSize = NSSize(width: 330, height: 400)
+        
+        // Prevent window deallocation on close, delegate to hide instead
+        window.isReleasedWhenClosed = false
+        window.delegate = self
 
         // Set initial always-on-top level
         window.level = viewModel.isAlwaysOnTop ? .floating : .normal
@@ -75,7 +79,7 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func statusItemClicked() {
         guard let window = self.window else { return }
-        if window.isVisible && window.isKeyWindow {
+        if window.isVisible && NSApp.isActive {
             window.orderOut(nil)
         } else {
             window.makeKeyAndOrderFront(nil)
@@ -83,10 +87,15 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    // Intercept window close button (red X) to hide rather than destroy window
+    public func windowShouldClose(_ sender: NSWindow) -> Bool {
+        sender.orderOut(nil)
+        return false
+    }
+
     public func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !flag {
-            window?.makeKeyAndOrderFront(nil)
-        }
+        window?.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
         return true
     }
 

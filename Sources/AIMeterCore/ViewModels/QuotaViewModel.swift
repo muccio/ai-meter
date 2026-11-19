@@ -2,15 +2,24 @@ import Foundation
 import Combine
 import SwiftUI
 
+public enum QuotaViewMode: String, CaseIterable, Identifiable, Sendable {
+    case all = "Tutti"
+    case summary = "Limiti 5h & Settimana"
+    case models = "Modelli"
+    public var id: String { rawValue }
+}
+
 @MainActor
 public final class QuotaViewModel: ObservableObject {
     @Published public var models: [ModelQuotaItem] = []
+    @Published public var quotaGroups: [QuotaGroupItem] = []
     @Published public var planName: String = "Google AI Pro"
     @Published public var promptCredits: Int = 0
     @Published public var flowCredits: Int = 0
     @Published public var isLoading: Bool = false
     @Published public var errorMessage: String? = nil
     @Published public var lastUpdated: Date? = nil
+    @Published public var viewMode: QuotaViewMode = .all
     @Published public var refreshInterval: Int {
         didSet {
             UserDefaults.standard.set(refreshInterval, forKey: "AIMeter_refreshInterval")
@@ -84,6 +93,7 @@ public final class QuotaViewModel: ObservableObject {
             self.promptCredits = result.promptCredits
             self.flowCredits = result.flowCredits
             self.models = result.models
+            self.quotaGroups = result.quotaGroups
             self.lastUpdated = result.fetchedAt
             self.isLoading = false
             self.nextRefreshSeconds = self.refreshInterval
