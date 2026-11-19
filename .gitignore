@@ -1,0 +1,11 @@
+.build/
+Packages/
+*.xcodeproj
+*.xcworkspace
+.DS_Store
+DerivedData/
+AIMeter.app/
+build/
+release/
+*.zip
+.swiftpm/
