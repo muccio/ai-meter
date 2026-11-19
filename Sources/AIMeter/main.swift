@@ -1,4 +1,6 @@
-import Foundation
-import AIMeterCore
+import AppKit
 
-print("AI Meter v\(AIMeterCoreVersion.version)")
+let app = NSApplication.shared
+let delegate = AppDelegate()
+app.delegate = delegate
+_ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)
